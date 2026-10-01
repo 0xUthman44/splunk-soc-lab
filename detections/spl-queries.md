@@ -20,9 +20,37 @@ index=ubuntu sourcetype=linux_secure "Failed password"
 
 Maps to MITRE ATT&CK **T1110 — Brute Force**.
 
-## Project 02 — PowerShell & Suspicious Process
+## Project 02 — PowerShell Detection & Endpoint Investigation
 
-_TBD_
+Full write-up: [`projects/02-powershell-process-investigation/`](../projects/02-powershell-process-investigation/)
+
+**Detection — Encoded PowerShell execution:**
+
+```spl
+index=* EventCode=1 host="DESKTOP-TEDQ8NH" Image="*\\powershell.exe" CommandLine="*-EncodedCommand*"
+| stats count min(_time) as first_seen max(_time) as last_seen by host User Image
+| convert ctime(first_seen) ctime(last_seen)
+| sort - count
+```
+
+**Detection summary — classifies discovery, encoded PowerShell, and process-spawning activity in one pass:**
+
+```spl
+index=* EventCode=1 host="DESKTOP-TEDQ8NH"
+| eval Activity=case(
+    match(CommandLine,"-EncodedCommand"),"Encoded PowerShell",
+    match(CommandLine,"Get-ComputerInfo"),"System Information Discovery",
+    match(CommandLine,"Get-Process"),"Process Discovery",
+    match(CommandLine,"Get-Service"),"Service Discovery",
+    match(CommandLine,"Start-Process cmd.exe"),"PowerShell spawning CMD",
+    true(),"Other"
+)
+| search Activity!="Other"
+| stats count by Activity
+| sort - count
+```
+
+Maps to MITRE ATT&CK **T1059.001, T1082, T1057, T1007, T1016, T1033**.
 
 ## Project 03 — Windows Persistence
 
