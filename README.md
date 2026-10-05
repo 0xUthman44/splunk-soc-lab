@@ -14,7 +14,7 @@ A hands-on Splunk portfolio built to demonstrate detection engineering and SOC m
 | # | Project | Primary skill | Status |
 |---|---|---|---|
 | 01 | [SSH Brute-Force Investigation](projects/01-ssh-brute-force-investigation/) | Authentication analysis + SPL | ✅ Complete |
-| 02 | [PowerShell & Suspicious Process Investigation](projects/02-powershell-process-investigation/) | Sysmon + process analysis + detection | Not started |
+| 02 | [PowerShell & Suspicious Process Investigation](projects/02-powershell-process-investigation/) | Sysmon + process analysis + detection | ✅ Complete |
 | 03 | [Windows Persistence Investigation](projects/03-windows-persistence/) | Persistence detection + ATT&CK | Not started |
 | — | [SOC Monitoring & Threat Detection Dashboard](dashboard/) | SPL + dashboards + SOC monitoring | Not started |
 
