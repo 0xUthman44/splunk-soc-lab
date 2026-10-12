@@ -52,6 +52,67 @@ index=* EventCode=1 host="DESKTOP-TEDQ8NH"
 
 Maps to MITRE ATT&CK **T1059.001, T1082, T1057, T1007, T1016, T1033**.
 
-## Project 03 — Windows Persistence
+## Project 03 — Windows Persistence Investigation
 
-_TBD_
+Full write-up: [`projects/03-windows-persistence/`](../projects/03-windows-persistence/)
+
+**Detection — scheduled task creation, with fields extracted via `rex` (not auto-extracted by default):**
+
+```spl
+index=* host="DESKTOP-TEDQ8NH" EventCode=4698
+| rex field=_raw "Account Name:\s+(?<TaskCreator>[^\r\n]+)"
+| rex field=_raw "Task Name:\s+(?<TaskName>[^\r\n]+)"
+| rex field=_raw "<Command>(?<TaskCommand>[^<]+)</Command>"
+| table _time host TaskCreator TaskName TaskCommand
+| sort - _time
+```
+
+**Detection — Registry Run Key modification, narrowed to PowerShell to exclude benign Edge browser entries that touch the same `Run`/`RunOnce` locations:**
+
+```spl
+index=* host="DESKTOP-TEDQ8NH" EventCode=13
+| search TargetObject="*CurrentVersion\\Run*"
+| search Image="*powershell.exe"
+| table _time User Image TargetObject Details
+| sort _time
+```
+
+Maps to MITRE ATT&CK **T1053.005 — Scheduled Task**, **T1547.001 — Registry Run Keys**.
+
+## Dashboard — Website Statistics
+
+Full write-up: [`dashboard/`](../dashboard/)
+
+Panel searches (index `http_sample`):
+
+**Requests by URI Path:**
+
+```spl
+index="http_sample"
+| top limit=5 uri_path
+```
+
+**HTTP connections over time:**
+
+```spl
+index="http_sample"
+| timechart count
+```
+
+**IP Addresses by City:**
+
+```spl
+index="http_sample"
+| iplocation clientip
+| geostats count by City
+```
+
+**Top User Agents:**
+
+```spl
+index="http_sample"
+| top limit=20 useragent
+| rename useragent as "User Agent", count as "Count of Events", percent as "Percentage"
+```
+
+Indicators map to MITRE ATT&CK **T1110 — Brute Force** and **T1595 — Active Scanning**.

@@ -6,7 +6,7 @@ A hands-on Splunk portfolio built to demonstrate detection engineering and SOC m
 
 - Splunk Enterprise (60-day Enterprise Trial license), single instance
 - Ubuntu 24.04 LTS endpoint (SSH, Apache) and Windows endpoint (Sysmon, Security/PowerShell logging), both forwarding via Splunk Universal Forwarder
-- Malicious activity generated from a Kali Linux attacker host — direct attack simulation for Linux-based projects, Atomic Red Team executions for Windows-based projects — mapped to specific MITRE ATT&CK techniques per project
+- Malicious activity generated from a Kali Linux attacker host (direct attack simulation) for Linux-based projects, and a custom PowerShell simulator script for Windows-based projects — mapped to specific MITRE ATT&CK techniques per project
 - Full build and verification steps: [`setup/setup.md`](setup/setup.md)
 
 ## Projects
@@ -18,7 +18,7 @@ A hands-on Splunk portfolio built to demonstrate detection engineering and SOC m
 | 03 | [Windows Persistence Investigation](projects/03-windows-persistence/) | Persistence detection + ATT&CK |  ✅ Complete |
 | — | [SOC Monitoring & Threat Detection Dashboard](dashboard/) | SPL + dashboards + SOC monitoring | Not started |
 
-The dashboard is built incrementally as each investigation project is completed, using the detections and telemetry those projects generate rather than separate synthetic data.
+Projects 01–03 use telemetry generated in this lab. The dashboard is built separately, on an imported sample web-server access log (`http_sample` index), and summarizes web traffic rather than the lab's endpoint detections.
 
 ## Repository structure
 
@@ -27,6 +27,6 @@ splunk-soc-lab/
 ├── setup/          # environment build and pipeline verification
 ├── data/           # telemetry source notes
 ├── detections/     # SPL queries, organized by project
-├── dashboard/       # SOC monitoring dashboard (built alongside 01-03)
-└── projects/        # the three investigations
+├── dashboard/      # Website Statistics dashboard (imported sample access log)
+└── projects/       # the three investigations
 ```
