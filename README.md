@@ -16,7 +16,7 @@ A hands-on Splunk portfolio built to demonstrate detection engineering and SOC m
 | 01 | [SSH Brute-Force Investigation](projects/01-ssh-brute-force-investigation/) | Authentication analysis + SPL | ✅ Complete |
 | 02 | [PowerShell & Suspicious Process Investigation](projects/02-powershell-process-investigation/) | Sysmon + process analysis + detection | ✅ Complete |
 | 03 | [Windows Persistence Investigation](projects/03-windows-persistence/) | Persistence detection + ATT&CK |  ✅ Complete |
-| — | [SOC Monitoring & Threat Detection Dashboard](dashboard/) | SPL + dashboards + SOC monitoring | Not started |
+| 04 | [SOC Monitoring & Threat Detection Dashboard](dashboard/) | SPL + dashboards + SOC monitoring | ✅ Complete  |
 
 Projects 01–03 use telemetry generated in this lab. The dashboard is built separately, on an imported sample web-server access log (`http_sample` index), and summarizes web traffic rather than the lab's endpoint detections.
 
